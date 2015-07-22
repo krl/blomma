@@ -102,4 +102,18 @@ describe('bloom', function () {
       assert(!f23.contains(f1))
     })
   })
+
+  describe('cloning', function () {
+    var f1 = bloom.empty()
+    f1.add('oho')
+    var f2 = bloom.clone(f1)
+    f2.add('aha')
+
+    it('should have cloned the filter', function () {
+      assert(f1.has('oho'))
+      assert(f2.has('oho'))
+      assert(!f1.has('aha'))
+      assert(f2.has('aha'))
+    })
+  })
 })

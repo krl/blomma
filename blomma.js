@@ -54,6 +54,9 @@ var Blomma = function (bytes, rounds) {
         buf[i] = a[i] | b[i]
       }
       return extend(buf)
+    },
+    clone: function (filter) {
+      return extend(new Buffer(filter))
     }
   }
 }

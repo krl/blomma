@@ -17,8 +17,6 @@ filter.has('hello') // => true
 filter.has('goodbye') // => false
 ```
 
-## api
-
 ### bloom
 
 The top level object methods:
@@ -27,23 +25,27 @@ The top level object methods:
 
 Returns a new empty filter
 
-#### merge (filter a, filter b)
+#### clone (filter)
+
+Returns a clone
+
+#### merge (filter1, filter2)
 
 Returns a filter that is a and b merged together with OR
 
 ### filter
 
-#### add (string/buffer value)
+#### add (string)
 
-Adds the value to the bloom filter
+Adds the string to the bloom filter
 
-#### has (string/buffer value)
+#### has (string)
 
 Returns false if not in the set, true if it might be
 
-#### contains (filter subset)
+#### contains (subset)
 
-Returns true if `subset` is a subset of the filter, i.e, contains everything that subset contains (and possibly more)
+Returns true if the filter contains everything that `subset` contains (and possibly more)
 
 # License
 
