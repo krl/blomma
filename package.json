@@ -1,0 +1,14 @@
+{
+  "name": "blomma",
+  "version": "0.1.0",
+  "description": "Bloom filters yet again",
+  "main": "blomma.js",
+  "dependencies": {
+    "fnv": "^0.1.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  },
+  "author": "Kristoffer Ström <kristoffer@rymdkoloni.se>",
+  "license": "MIT"
+}
