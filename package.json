@@ -1,6 +1,6 @@
 {
   "name": "blomma",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bloom filters yet again",
   "main": "blomma.js",
   "dependencies": {

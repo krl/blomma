@@ -18,14 +18,14 @@ var Blomma = function (bytes, rounds) {
       var idx = indicies(value)
       for (var i = 0 ; i < rounds ; i++) {
         var bit = idx[i]
-        buffer[Math.floor(bit / 8)] |= (1 << (bit % 8))
+        buffer[bit >> 3] |= (1 << (bit % 8))
       }
     }
     buffer.has = function (value) {
       var idx = indicies(value)
       for (var i = 0 ; i < rounds ; i++) {
         var bit = idx[i]
-        if (!(buffer[Math.floor(bit / 8)] & (1 << (bit % 8)))) {
+        if (!(buffer[bit >> 3] & (1 << (bit % 8)))) {
           return false
         }
       }
