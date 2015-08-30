@@ -13,9 +13,9 @@ var Blomma = function (size, rounds) {
     return idx
   }
 
-  var Filter = function (data) {
-    this.buffer = new Buffer(size)
-    this.buffer.fill(0)
+  var Filter = function (databuf) {
+    this.buffer = new Buffer(databuf || size)
+    if (!databuf) this.buffer.fill(0)
   }
 
   Filter.prototype = {
@@ -48,7 +48,10 @@ var Blomma = function (size, rounds) {
 
   return {
     empty: function () {
-      return new Filter(size)
+      return new Filter()
+    },
+    fromBuffer: function (buf) {
+      return new Filter(buf)
     },
     merge: function (a, b) {
       var filter = new Filter()

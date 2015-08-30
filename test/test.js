@@ -128,4 +128,16 @@ describe('bloom', function () {
       assert(f2.has('aha'))
     })
   })
+
+  describe('fromBuffer', function () {
+    it('should have made filter from buffer', function () {
+      var f1 = bloom.empty()
+      f1.add('oho')
+      f1.add('aha')
+      var f2 = bloom.fromBuffer(f1.buffer)
+
+      assert(f2.has('oho'))
+      assert(f2.has('aha'))
+    })
+  })
 })
