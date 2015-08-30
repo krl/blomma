@@ -1,62 +1,68 @@
 var FNV = require('fnv').FNV
 
-var Blomma = function (bytes, rounds) {
+var Blomma = function (size, rounds) {
   var indicies = function (value) {
     var hash = new FNV()
     var idx = []
 
     for (var i = 0 ; i < rounds ; i++) {
       hash.update(value)
-      idx.push(parseInt(hash.digest('hex'), 16) % (bytes * 8))
+      idx.push(parseInt(hash.digest('hex'), 16) % (size * 8))
       value = '\0'
     }
     return idx
   }
 
-  var extend = function (buffer) {
-    buffer.add = function (value) {
+  var Filter = function (data) {
+    this.buffer = new Buffer(size)
+    this.buffer.fill(0)
+  }
+
+  Filter.prototype = {
+    add: function (value) {
       var idx = indicies(value)
       for (var i = 0 ; i < rounds ; i++) {
         var bit = idx[i]
-        buffer[bit >> 3] |= (1 << (bit % 8))
+        this.buffer[bit >> 3] |= (1 << (bit % 8))
       }
-    }
-    buffer.has = function (value) {
+    },
+    has: function (value) {
       var idx = indicies(value)
       for (var i = 0 ; i < rounds ; i++) {
         var bit = idx[i]
-        if (!(buffer[bit >> 3] & (1 << (bit % 8)))) {
+        if (!(this.buffer[bit >> 3] & (1 << (bit % 8)))) {
+          return false
+        }
+      }
+      return true
+    },
+    contains: function (subset) {
+      for (var i = 0 ; i < size ; i++) {
+        if ((this.buffer[i] & subset.buffer[i]) !== subset.buffer[i]) {
           return false
         }
       }
       return true
     }
-    buffer.contains = function (subset) {
-      for (var i = 0 ; i < bytes ; i++) {
-        if ((this[i] & subset[i]) !== subset[i]) {
-          return false
-        }
-      }
-      return true
-    }
-    return buffer
   }
 
   return {
     empty: function () {
-      var buf = new Buffer(bytes)
-      buf.fill(0)
-      return extend(buf)
+      return new Filter(size)
     },
     merge: function (a, b) {
-      var buf = new Buffer(bytes)
-      for (var i = 0 ; i < bytes ; i++) {
-        buf[i] = a[i] | b[i]
+      var filter = new Filter()
+      for (var i = 0 ; i < size ; i++) {
+        filter.buffer[i] = a.buffer[i] | b.buffer[i]
       }
-      return extend(buf)
+      return filter
     },
-    clone: function (filter) {
-      return extend(new Buffer(filter))
+    clone: function (toclone) {
+      var filter = new Filter()
+      for (var i = 0 ; i < size ; i++) {
+        filter.buffer[i] = toclone.buffer[i]
+      }
+      return filter
     }
   }
 }

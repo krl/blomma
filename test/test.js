@@ -101,6 +101,18 @@ describe('bloom', function () {
       assert(f23.contains(f3))
       assert(!f23.contains(f1))
     })
+
+    it('f12 should not contain 3', function () {
+      assert(!f12.contains(f3))
+    })
+
+    it('f13 should not contain 2', function () {
+      assert(!f13.contains(f2))
+    })
+
+    it('f23 should not contain 1', function () {
+      assert(!f23.contains(f1))
+    })
   })
 
   describe('cloning', function () {
